@@ -1,0 +1,155 @@
+<template>
+
+    <lightning-layout multiple-rows>
+
+        <!-- PDF -->
+        <lightning-layout-item size="7" padding="around-small">
+
+            <lightning-card title="Documento de identidad">
+
+                <template if:true={pdfUrl}>
+
+                    <iframe
+                        src="https://orgfarm-9480a11265-dev-ed.develop.my.salesforce.com/sfc/p/fj00000QudFp/a/fj000000Bs3V/R7kfIxNc5SAdRpsO1SBHhXEnKXB8N7vEbadszjL.SdE"
+                        width="100%"
+                        height="700px"
+                        frameborder="0">
+
+                    </iframe>
+
+                </template>
+
+                <template if:false={pdfUrl}>
+
+                    <div class="slds-p-around_medium">
+
+                        No se encontró ningún PDF asociado al Lead.
+
+                    </div>
+
+                </template>
+
+            </lightning-card>
+
+        </lightning-layout-item>
+
+        <!-- Checklist y comentarios -->
+        <lightning-layout-item size="5" padding="around-small">
+
+            <lightning-card title="Revisión de Documento">
+
+                <div class="slds-p-around_medium">
+
+                    <lightning-input
+                        type="checkbox"
+                        label="ID Oficial"
+                        checked={officialId}
+                        onchange={handleOfficialId}>
+                    </lightning-input>
+
+                    <lightning-input
+                        type="checkbox"
+                        label="Legible"
+                        checked={legible}
+                        onchange={handleLegible}>
+                    </lightning-input>
+
+                    <lightning-input
+                        type="checkbox"
+                        label="Vigente"
+                        checked={valid}
+                        onchange={handleValid}>
+                    </lightning-input>
+
+                    <lightning-input
+                        type="checkbox"
+                        label="Menor a 600 KB"
+                        checked={under600KB}
+                        onchange={handleUnder600KB}>
+                    </lightning-input>
+
+                    <div class="slds-m-top_medium">
+
+    <lightning-button
+        label="Guardar"
+        variant="brand"
+        onclick={save}>
+    </lightning-button>
+
+    <lightning-button
+        label="Revisado"
+        variant="brand-outline"
+        onclick={handleMarcarComoRevisado}
+        class="slds-m-left_small">
+    </lightning-button>
+
+</div>
+                </div>
+
+            </lightning-card>
+
+            <br/>
+
+            <lightning-card title="Agregar comentarios">
+
+                <div class="slds-p-around_medium">
+
+                    <lightning-textarea
+                        label="Nuevo comentario"
+                        value={nuevoComentario}
+                        onchange={handleComentario}>
+                    </lightning-textarea>
+
+                    <br/>
+
+                    <lightning-button
+                        label="Agregar comentario"
+                        variant="brand"
+                        onclick={guardarNuevoComentario}>
+                    </lightning-button>
+
+                </div>
+
+            </lightning-card>
+
+            <br/>
+
+            <lightning-card title="Historial de comentarios">
+
+                <div class="slds-p-around_medium">
+
+                    <template for:each={comentarios} for:item="comentario">
+
+                        <div
+                            key={comentario.Id}
+                            class="slds-box slds-m-bottom_small">
+
+                            <p>
+
+                                <strong>Fecha:</strong>
+
+                                {comentario.fecha_comentario__c}
+
+                            </p>
+
+                            <p>
+
+                                <strong>Comentario:</strong>
+
+                                {comentario.comentario__c}
+
+                            </p>
+
+                        </div>
+
+                    </template>
+
+                </div>
+
+            </lightning-card>
+
+        </lightning-layout-item>
+
+    </lightning-layout>
+
+</template>
